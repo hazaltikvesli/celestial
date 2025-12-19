@@ -1,0 +1,105 @@
+:root {
+    --gold: #d4af37;
+    --glass: rgba(255, 255, 255, 0.1);
+    --aura: rgba(212, 175, 55, 0.6);
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+}
+
+/* Arka Plan Efektleri */
+#stars-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: url('https://www.transparenttextures.com/patterns/stardust.png');
+}
+
+.galaxy-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 50px;
+    height: 100vh;
+}
+
+/* Cam Baloncuklar */
+.bubble {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: inset 0 0 20px rgba(255,255,255,0.1);
+}
+
+/* Form Çeşitliliği */
+.bubble:nth-child(odd) { border-radius: 45% 55% 70% 30% / 30% 60% 40% 70%; }
+.bubble:nth-child(3n) { border-radius: 15px; width: 130px; }
+
+.bubble::before { /* Altın Askı */
+    content: '';
+    position: absolute;
+    top: -15px;
+    width: 20px;
+    height: 20px;
+    background: var(--gold);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+/* Durumlar */
+.bubble.active {
+    animation: pulsing 2s infinite;
+    border-color: var(--gold);
+}
+
+.bubble.locked { opacity: 0.4; filter: grayscale(1); }
+.bubble.solved { background-size: cover; background-position: center; }
+
+@keyframes pulsing {
+    0% { box-shadow: 0 0 0 0 var(--aura); }
+    70% { box-shadow: 0 0 20px 15px rgba(212, 175, 55, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+
+/* Modal Styling */
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 100;
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 2px solid var(--gold);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+}
+
+.hidden { display: none !important; }
+
+/* Mobil Uyumluluk */
+@media (max-width: 768px) {
+    .galaxy-grid { gap: 20px; padding: 20px; }
+    .bubble { width: 80px; height: 80px; }
+}
