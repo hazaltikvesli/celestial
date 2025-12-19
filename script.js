@@ -10,7 +10,7 @@ const calendarData = [
     { id: 9, riddle: "Kaptanla her virajda omuz omuzayım; elinin altındaki en yakın kuyu, bezlerin ve temizlik spreylerinin yuvasıyım.", answer: "Kapı cebi", img: "5.jpeg" },
     { id: 10, riddle: "Asıl kapağın yukarısında pusuda bekleyen ikinci bir saklanma yeriyim; her arabada bulunmam, varlığım bir sürprizdir.", answer: "Üst Torpido", img: "10.JPG" },
     { id: 11, riddle: "Dünyayı bir kutuya sığdırdım, cebindeyken her yere ulaştım. Gözüm var görmem ama gösteririm, kulağım var duymam ama duyururum; şarjım biterse bir anda dilsiz kalırım.", answer: "Telefon", img: "11.jpg" },
-    { id: 12, riddle: "Arabanın sırtındaki devase çantayım; tatile giderken dolar taşarım, şehirde ise sadece bir stepneye ev sahipliği yaparım.", answer: "bagaj", img: "12.jpg" },
+    { id: 12, riddle: "Arabanın sırtındaki devasa çantayım; tatile giderken dolar taşarım, şehirde ise sadece bir stepneye ev sahipliği yaparım.", answer: "bagaj", img: "12.jpg" },
 ];
 
 let currentStep = parseInt(localStorage.getItem('celestialProgress')) || 1;
@@ -19,7 +19,11 @@ let activeBubbleId = null;
 const grid = document.getElementById('calendar-grid');
 const modalOverlay = document.getElementById('modal-overlay');
 const bgMusic = document.getElementById('bg-music');
-const sfx = { chime: new Audio('chime.mp3'), success: new Audio('success.mp3'), locked: new Audio('locked.mp3') };
+const sfx = { 
+    chime: new Audio('chime.mp3'), 
+    success: new Audio('success.mp3'), 
+    locked: new Audio('locked.mp3') 
+};
 
 function renderCalendar() {
     grid.innerHTML = '';
@@ -30,16 +34,19 @@ function renderCalendar() {
         const bubble = document.createElement('div');
         bubble.className = 'bubble';
         
+        // --- HALKA DÜZENİ ---
         const angle = (index / calendarData.length) * Math.PI * 2;
         const radius = Math.min(window.innerWidth, window.innerHeight) * 0.35;
-        const x = centerX + Math.cos(angle) * radius - 55;
-        const y = centerY + Math.sin(angle) * radius - 55;
+        const x = centerX + Math.cos(angle) * radius - 60;
+        const y = centerY + Math.sin(angle) * radius - 60;
 
         bubble.style.left = `${x}px`;
         bubble.style.top = `${y}px`;
-        const size = 100 + (index % 3) * 15;
+        
+        // Organik boyutlar
+        const size = 110 + (index % 4) * 12;
         bubble.style.width = bubble.style.height = `${size}px`;
-        bubble.style.animationDelay = `${index * 0.4}s`;
+        bubble.style.animationDelay = `${index * 0.5}s`;
 
         if (item.id < currentStep) {
             bubble.classList.add('solved');
@@ -73,7 +80,10 @@ function renderCalendar() {
     });
 }
 
-document.getElementById('submit-btn').onclick = () => {
+document.getElementById('submit-btn').onclick = checkAnswer;
+document.getElementById('answer-input').onkeypress = (e) => { if (e.key === 'Enter') checkAnswer(); };
+
+function checkAnswer() {
     const input = document.getElementById('answer-input').value.trim().toLowerCase();
     const correct = calendarData.find(d => d.id === activeBubbleId).answer.toLowerCase();
 
@@ -84,7 +94,7 @@ document.getElementById('submit-btn').onclick = () => {
             currentStep = 13;
             localStorage.setItem('celestialProgress', 13);
             renderCalendar();
-            confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });
+            confetti({ particleCount: 250, spread: 90, origin: { y: 0.6 } });
             document.getElementById('final-screen').classList.remove('hidden');
         } else {
             currentStep++;
@@ -96,12 +106,19 @@ document.getElementById('submit-btn').onclick = () => {
         document.querySelector('.modal-content').classList.add('shake-anim');
         setTimeout(() => document.querySelector('.modal-content').classList.remove('shake-anim'), 400);
     }
-};
+}
 
 document.getElementById('close-btn').onclick = () => modalOverlay.classList.remove('active');
 document.getElementById('mute-btn').onclick = () => {
-    if (bgMusic.paused) { bgMusic.play(); document.getElementById('icon-on').classList.add('active'); document.getElementById('icon-off').classList.remove('active'); }
-    else { bgMusic.pause(); document.getElementById('icon-on').classList.remove('active'); document.getElementById('icon-off').classList.add('active'); }
+    if (bgMusic.paused) { 
+        bgMusic.play(); 
+        document.getElementById('icon-on').classList.add('active'); 
+        document.getElementById('icon-off').classList.remove('active'); 
+    } else { 
+        bgMusic.pause(); 
+        document.getElementById('icon-on').classList.remove('active'); 
+        document.getElementById('icon-off').classList.add('active'); 
+    }
 };
 
 window.onload = renderCalendar;
