@@ -2,217 +2,127 @@
     --gold: #d4af37;
     --glass: rgba(255, 255, 255, 0.1);
     --aura: rgba(212, 175, 55, 0.6);
-    --brass: #d4af37; /* İstediğin brass rengini gold ile eşitledim */
+    --brass: #d4af37;
 }
 
 body {
     margin: 0;
     overflow: hidden;
-    background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: 
+        radial-gradient(circle at center, rgba(212, 175, 55, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+    font-family: 'Segoe UI', sans-serif;
     color: white;
-}
-
-/* --- Arka Plan Efektleri --- */
-#stars-container {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: url('https://www.transparenttextures.com/patterns/stardust.png');
-}
-
-.galaxy-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    padding: 50px;
     height: 100vh;
 }
 
-/* --- Cam Baloncuklar --- */
-.bubble {
+#stars-container {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background: url('https://www.transparenttextures.com/patterns/stardust.png');
+    opacity: 0.5;
+}
+
+.cosmic-glow {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+    filter: blur(80px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.galaxy-grid {
     position: relative;
-    width: 120px;
-    height: 120px;
+    width: 100vw;
+    height: 100vh;
+}
+
+.bubble {
+    position: absolute; /* JS ile konumlanacak */
     background: var(--glass);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     border: 1px solid rgba(255,255,255,0.2);
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.3s, box-shadow 0.3s;
     box-shadow: inset 0 0 20px rgba(255,255,255,0.1);
+    animation: floating 6s ease-in-out infinite;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.bubble:nth-child(odd) { border-radius: 45% 55% 70% 30% / 30% 60% 40% 70%; }
-.bubble:nth-child(3n) { border-radius: 15px; width: 130px; }
-
-.bubble::before {
-    content: '';
-    position: absolute;
-    top: -15px;
-    width: 20px;
-    height: 20px;
-    background: var(--gold);
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+@keyframes floating {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-15px) rotate(2deg); }
 }
 
 .bubble.active {
-    animation: pulsing 2s infinite;
     border-color: var(--gold);
+    box-shadow: 0 0 30px var(--aura), inset 0 0 10px var(--gold);
 }
 
-.bubble.locked { opacity: 0.4; filter: grayscale(1); }
 .bubble.solved { background-size: cover; background-position: center; border-color: var(--gold); }
+.bubble.locked { opacity: 0.3; filter: grayscale(1); }
 
-/* --- MODAL (Yeni Stil) --- */
+/* --- MODAL --- */
 .modal-overlay {
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: rgba(0, 0, 0, 0.85);
-    display: none; /* JS ile block yapılacak */
-    align-items: center;
-    justify-content: center;
-    z-index: 200;
-    backdrop-filter: blur(5px);
+    display: none; align-items: center; justify-content: center;
+    z-index: 200; backdrop-filter: blur(8px);
 }
-
-/* Modal görünür olduğunda bu class kullanılacak */
-.modal-overlay.active {
-    display: flex;
-}
+.modal-overlay.active { display: flex; }
 
 .modal-content {
-    background: #3d2b1f; /* Koyu kahve/ceviz zemin */
-    color: #fff;
-    padding: 30px;
-    border-radius: 25px;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    position: relative;
+    background: #3d2b1f;
+    padding: 30px; border-radius: 25px;
+    width: 90%; max-width: 400px;
+    text-align: center; position: relative;
     border: 1px solid var(--brass);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
     animation: modalPop 0.3s ease-out;
 }
 
-.modal-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    color: white;
-    cursor: pointer;
-    font-size: 20px;
-    opacity: 0.7;
-    transition: 0.3s;
-}
-
-.modal-close:hover { opacity: 1; }
-
-.modal-content h2 { 
-    background: rgba(212, 175, 55, 0.2);
-    color: var(--brass);
-    display: inline-block;
-    padding: 5px 20px;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-    border: 1px solid var(--brass);
-}
-
-.modal-content h3 {
-    font-family: 'Playfair Display', serif;
-    color: #e0f4ff;
-    margin-bottom: 20px;
-}
-
-#riddle-text {
-    background: rgba(0, 0, 0, 0.4);
-    padding: 20px;
-    border-radius: 15px;
-    font-style: italic;
-    color: #fff;
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
-
-.modal-content input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    background: #000;
-    border: 1px solid var(--brass);
-    border-radius: 8px;
-    color: white;
-    text-align: center;
-    box-shadow: inset 0 0 5px rgba(212, 175, 55, 0.3);
-    box-sizing: border-box; /* padding taşmasını engeller */
-}
-
-.modal-content button {
-    width: 100%;
-    background: var(--brass);
-    color: #1a110a;
-    border: none;
-    padding: 12px;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.modal-content button:active { transform: scale(0.98); }
-
-/* --- Animasyonlar --- */
 @keyframes modalPop {
     from { opacity: 0; transform: scale(0.8); }
     to { opacity: 1; transform: scale(1); }
 }
 
-@keyframes pulsing {
-    0% { box-shadow: 0 0 0 0 var(--aura); }
-    70% { box-shadow: 0 0 20px 15px rgba(212, 175, 55, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+#riddle-text {
+    background: rgba(0,0,0,0.3);
+    padding: 15px; border-radius: 15px;
+    font-style: italic; margin: 15px 0;
 }
 
+.modal-content input {
+    width: 100%; padding: 12px; margin-bottom: 10px;
+    background: #000; border: 1px solid var(--gold);
+    color: #fff; border-radius: 8px; text-align: center;
+}
+
+.modal-content button {
+    width: 100%; background: var(--gold);
+    padding: 12px; border: none; border-radius: 10px;
+    font-weight: bold; cursor: pointer;
+}
+
+#mute-btn {
+    position: fixed; top: 20px; right: 20px;
+    background: rgba(0,0,0,0.5); border: 1px solid var(--gold);
+    border-radius: 50%; width: 45px; height: 45px;
+    cursor: pointer; z-index: 1000; display: flex; align-items: center; justify-content: center;
+}
+#mute-btn svg { width: 20px; height: 20px; fill: var(--gold); display: none; }
+#mute-btn svg.active { display: block; }
+.hidden { display: none !important; }
+.shake-anim { animation: shake 0.4s; }
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    75% { transform: translateX(10px); }
-}
-
-.shake-anim { animation: shake 0.4s ease-in-out; }
-
-/* --- Müzik Butonu --- */
-#mute-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(61,43,31,0.6);
-    border: 1px solid var(--brass);
-    color: var(--brass);
-    border-radius: 50%;
-    cursor: pointer;
-    width: 45px; 
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 300;
-}
-
-#mute-btn svg { width: 20px; height: 20px; fill: var(--brass); display: none; }
-#mute-btn svg.active { display: block; }
-
-.hidden { display: none !important; }
-
-/* --- Mobil Uyumluluk --- */
-@media (max-width: 768px) {
-    .galaxy-grid { gap: 20px; padding: 20px; }
-    .bubble { width: 80px; height: 80px; }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
 }
