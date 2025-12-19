@@ -65,7 +65,7 @@ body {
 }
 
 .bubble.solved { background-size: cover; background-position: center; border-color: var(--gold); }
-.bubble.locked { opacity: 0.3; filter: grayscale(1); }
+.bubble.locked { opacity: 0.5; filter: grayscale(1); }
 
 /* --- TİPOGRAFİ (Brush Script MT) --- */
 .handwritten {
@@ -74,7 +74,7 @@ body {
 
 #modal-title {
     font-size: 3.2rem;
-    color: var(--gold);
+    color: rgba(10, 25, 47, 1);
     margin-bottom: 5px;
     font-weight: normal;
 }
