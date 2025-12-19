@@ -97,7 +97,7 @@ body {
     display: flex;
 }
 .modal-content {
-    background: rgba(10, 25, 47, 0.4); 
+    background: #f3e5ab; 
     padding: 40px; border-radius: 30px;
     width: 90%; max-width: 450px;
     text-align: center; position: relative;
@@ -123,7 +123,7 @@ body {
 .modal-content button {
     width: 100%; background:rgba(10, 25, 47, 1);
     padding: 15px; border: none; border-radius: 12px;
-    font-weight: bold; cursor: pointer; color: #1a110a;
+    font-weight: bold; cursor: pointer; color: #f3e5ab;
     font-size: 1.1rem; transition: 0.3s;
 }
 
