@@ -1,8 +1,3 @@
-/**
- * Celestial Advent Calendar - Logic & Game Loop
- * Stack: Vanilla JS + Canvas Confetti
- */
-
 const calendarData = [
     { id: 1, riddle: "İçinde ne motor yağı var ne de yakıt; sadece sabah kahvenin dökülmeden durabileceği o çukur yuvayım.", answer: "Bardaklık", img: "1.jpeg" },
     { id: 2, riddle: "Passenger Princessin hemen yanındaki derin sessizliğim; genellikle yarım kalmış su şişelerini ve unutulmuş fişleri yutarım.", answer: "Kapı cebi", img: "2.jpeg" },
@@ -15,156 +10,112 @@ const calendarData = [
     { id: 9, riddle: "Kaptanla her virajda omuz omuzayım; elinin altındaki en yakın kuyu, bezlerin ve temizlik spreylerinin yuvasıyım.", answer: "Kapı cebi", img: "5.jpeg" },
     { id: 10, riddle: "Asıl kapağın yukarısında pusuda bekleyen ikinci bir saklanma yeriyim; her arabada bulunmam, varlığım bir sürprizdir.", answer: "Üst Torpido", img: "10.JPG" },
     { id: 11, riddle: "Dünyayı bir kutuya sığdırdım, cebindeyken her yere ulaştım. Gözüm var görmem ama gösteririm, kulağım var duymam ama duyururum; şarjım biterse bir anda dilsiz kalırım.", answer: "Telefon", img: "11.jpg" },
-    { id: 12, riddle: "Arabanın sırtındaki devasa çantayım; tatile giderken dolar taşarım, şehirde ise sadece bir stepneye ev sahipliği yaparım.", answer: "bagaj", img: "12.jpg" },
+    { id: 12, riddle: "Arabanın sırtındaki devasa çantayım; tatile giderken dolar taşarım, şehirde ise sadece bir stepneye ev sahipliği yaparım.", answer: "bagaj", img: "12.jpg" }
 ];
 
-// Uygulama Durumu (State)
 let currentStep = parseInt(localStorage.getItem('celestialProgress')) || 1;
 let activeBubbleId = null;
 
 // DOM Elementleri
 const grid = document.getElementById('calendar-grid');
-const modal = document.getElementById('riddle-modal');
+const modalOverlay = document.querySelector('.modal-overlay'); // Yeni overlay
+const modalContent = document.querySelector('.modal-content');
 const riddleText = document.getElementById('riddle-text');
 const answerInput = document.getElementById('answer-input');
-const submitBtn = document.getElementById('submit-answer');
-const closeModal = document.querySelector('.close-modal');
+const submitBtn = document.querySelector('.modal-content button');
+const closeModal = document.querySelector('.modal-close');
 const bgMusic = document.getElementById('bg-music');
 const muteBtn = document.getElementById('mute-btn');
+const iconOn = document.getElementById('icon-on');
+const iconOff = document.getElementById('icon-off');
 
-// Ses Dosyaları (Yolları klasör yapına göre düzenle)
+// Sesler
 const sfx = {
     chime: new Audio('chime.mp3'),
     success: new Audio('success.mp3'),
     locked: new Audio('locked.mp3')
-};;
+};
 
-// Takvimi Oluştur
 function renderCalendar() {
-    grid.innerHTML = ''; // Temizle
-    
+    grid.innerHTML = '';
     calendarData.forEach(item => {
         const bubble = document.createElement('div');
         bubble.className = 'bubble';
         
-        // Durum Kontrolü
         if (item.id < currentStep) {
-            // Çözülmüş
             bubble.classList.add('solved');
-            bubble.style.backgroundImage = `url('${item.img}')`;
-            bubble.innerHTML = ''; // Numarayı kaldır
+            bubble.style.backgroundImage = `url('${item.img}')`; // GitHub ana dizin için düzenlendi
         } else if (item.id === currentStep) {
-            // Aktif
             bubble.classList.add('active');
             bubble.innerHTML = `<span>${item.id}</span>`;
         } else {
-            // Kilitli
             bubble.classList.add('locked');
             bubble.innerHTML = `<span>${item.id}</span>`;
         }
 
-        bubble.addEventListener('click', () => onBubbleClick(item));
+        bubble.onclick = () => {
+            if (item.id > currentStep) {
+                sfx.locked.play();
+                bubble.classList.add('shake-anim');
+                setTimeout(() => bubble.classList.remove('shake-anim'), 500);
+                return;
+            }
+            if (item.id < currentStep) return;
+
+            activeBubbleId = item.id;
+            riddleText.innerText = item.riddle;
+            answerInput.value = '';
+            modalOverlay.classList.add('active'); // Overlay'i göster
+            sfx.chime.play();
+            
+            // İlk etkileşimde müziği başlat (Tarayıcı engeli için)
+            if (bgMusic.paused) bgMusic.play();
+        };
         grid.appendChild(bubble);
     });
 }
-
-// Baloncuk Tıklama Olayı
-function onBubbleClick(item) {
-    if (item.id > currentStep) {
-        // Kilitli efekt
-        sfx.locked.play();
-        triggerShake(document.querySelector(`.bubble:nth-child(${item.id})`));
-        return;
-    }
-
-    if (item.id < currentStep) {
-        // Zaten açılmış resme tıklanırsa büyütebilirsin (opsiyonel)
-        return;
-    }
-
-    // Modal Aç
-    activeBubbleId = item.id;
-    riddleText.innerText = item.riddle;
-    answerInput.value = '';
-    modal.classList.remove('hidden');
-    sfx.chime.play();
-}
-
-// Cevap Kontrolü
-submitBtn.addEventListener('click', checkAnswer);
-answerInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') checkAnswer();
-});
 
 function checkAnswer() {
     const input = answerInput.value.trim().toLowerCase();
     const correct = calendarData.find(d => d.id === activeBubbleId).answer.toLowerCase();
 
     if (input === correct) {
-        handleSuccess();
+        sfx.success.play();
+        modalOverlay.classList.remove('active');
+        
+        if (currentStep === 12) {
+            currentStep = 13;
+            localStorage.setItem('celestialProgress', 13);
+            renderCalendar();
+            confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 } });
+            alert("Yeni Yılın Kutlu Olsun Sevgilim!"); // Buraya görsel bir final de eklenebilir
+        } else {
+            currentStep++;
+            localStorage.setItem('celestialProgress', currentStep);
+            renderCalendar();
+        }
     } else {
         sfx.locked.play();
-        triggerShake(modal.querySelector('.modal-content'));
+        modalContent.classList.add('shake-anim');
+        setTimeout(() => modalContent.classList.remove('shake-anim'), 500);
     }
 }
 
-function handleSuccess() {
-    sfx.success.play();
-    modal.classList.add('hidden');
+// Event Listeners
+submitBtn.onclick = checkAnswer;
+answerInput.onkeypress = (e) => { if (e.key === 'Enter') checkAnswer(); };
+closeModal.onclick = () => modalOverlay.classList.remove('active');
 
-    if (currentStep === 12) {
-        // Oyun Bitti
-        localStorage.setItem('celestialProgress', 13);
-        currentStep = 13;
-        renderCalendar();
-        showFinalSurprise();
-    } else {
-        currentStep++;
-        localStorage.setItem('celestialProgress', currentStep);
-        renderCalendar();
-    }
-}
-
-// Titreme Efekti
-function triggerShake(element) {
-    element.classList.add('shake-anim');
-    setTimeout(() => element.classList.remove('shake-anim'), 500);
-}
-
-// Final Konfeti ve Mesaj
-function showFinalSurprise() {
-    confetti({
-        particleCount: 200,
-        spread: 90,
-        origin: { y: 0.6 },
-        colors: ['#d4af37', '#ffffff']
-    });
-
-    document.getElementById('final-screen').classList.remove('hidden');
-}
-
-// Müzik ve Modal Kapama
 muteBtn.onclick = () => {
-            const iconOn= document.getElementById('icon-on');
-            const iconOff= document.getElementById('icon-off');        
-            if (bgMusic.paused) {
-                bgMusic.play();
-                iconOn.classList.add('active');
-                iconOff.classList.remove('active');
-                iconOn.style.display = "block";
-                iconOff.style.display = "none";
-            } else {
-                bgMusic.pause();
-                iconOn.classList.remove('active');
-                iconOff.classList.add('active');
-                iconOn.style.display = "none";
-                iconOff.style.display = "block";
-            }
-        };
-closeModal.onclick = () => modal.classList.add('hidden');
-
-// Başlat
-window.onload = () => {
-    renderCalendar();
-    if(currentStep > 12) showFinalSurprise();
+    if (bgMusic.paused) {
+        bgMusic.play();
+        iconOn.classList.add('active');
+        iconOff.classList.remove('active');
+    } else {
+        bgMusic.pause();
+        iconOn.classList.remove('active');
+        iconOff.classList.add('active');
+    }
 };
+
+window.onload = renderCalendar;
