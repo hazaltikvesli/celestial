@@ -103,6 +103,28 @@ body {
 }
 
 .hidden { display: none !important; }
+#mute-btn {
+            background: rgba(61,43,31,0.6);
+            border: 1px solid var(--brass);
+            color: var(--brass);
+            padding: 0;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 40px; height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        #mute-btn svg {
+            width: 24px; 
+            height: 24px;
+            stroke: var(--brass);
+            display: none;
+        }
+        #mute-btn svg.active {
+            display: block;
+        }
 
 /* Mobil Uyumluluk */
 @media (max-width: 768px) {
