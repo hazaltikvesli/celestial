@@ -65,7 +65,7 @@ body {
 }
 
 .bubble.solved { background-size: cover; background-position: center; border-color: var(--gold); }
-.bubble.locked { opacity: 0.5; filter: grayscale(1); }
+.bubble.locked { opacity: 0.4;  }
 
 /* --- TİPOGRAFİ (Brush Script MT) --- */
 .handwritten {
