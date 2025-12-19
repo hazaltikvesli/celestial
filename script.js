@@ -34,10 +34,10 @@ const muteBtn = document.getElementById('music-control');
 
 // Ses Dosyaları (Yolları klasör yapına göre düzenle)
 const sfx = {
-    chime: new Audio('assets/sfx/chime.mp3'), // Açılış sesi
-    success: new Audio('assets/sfx/success.mp3'), // Doğru cevap
-    locked: new Audio('assets/sfx/locked.mp3') // Kilitli uyarısı
-};
+    chime: new Audio('chime.mp3'),
+    success: new Audio('success.mp3'),
+    locked: new Audio('locked.mp3')
+};;
 
 // Takvimi Oluştur
 function renderCalendar() {
@@ -51,7 +51,7 @@ function renderCalendar() {
         if (item.id < currentStep) {
             // Çözülmüş
             bubble.classList.add('solved');
-            bubble.style.backgroundImage = `url('assets/images/${item.img}')`;
+            bubble.style.backgroundImage = `url('${item.img}')`;
             bubble.innerHTML = ''; // Numarayı kaldır
         } else if (item.id === currentStep) {
             // Aktif
