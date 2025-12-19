@@ -2,6 +2,7 @@
     --gold: #d4af37;
     --glass: rgba(255, 255, 255, 0.1);
     --aura: rgba(212, 175, 55, 0.6);
+    --brass: #d4af37; /* İstediğin brass rengini gold ile eşitledim */
 }
 
 body {
@@ -12,7 +13,7 @@ body {
     color: white;
 }
 
-/* Arka Plan Efektleri */
+/* --- Arka Plan Efektleri --- */
 #stars-container {
     position: fixed;
     width: 100%;
@@ -31,7 +32,7 @@ body {
     height: 100vh;
 }
 
-/* Cam Baloncuklar */
+/* --- Cam Baloncuklar --- */
 .bubble {
     position: relative;
     width: 120px;
@@ -48,11 +49,10 @@ body {
     box-shadow: inset 0 0 20px rgba(255,255,255,0.1);
 }
 
-/* Form Çeşitliliği */
 .bubble:nth-child(odd) { border-radius: 45% 55% 70% 30% / 30% 60% 40% 70%; }
 .bubble:nth-child(3n) { border-radius: 15px; width: 130px; }
 
-.bubble::before { /* Altın Askı */
+.bubble::before {
     content: '';
     position: absolute;
     top: -15px;
@@ -62,71 +62,156 @@ body {
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 }
 
-/* Durumlar */
 .bubble.active {
     animation: pulsing 2s infinite;
     border-color: var(--gold);
 }
 
 .bubble.locked { opacity: 0.4; filter: grayscale(1); }
-.bubble.solved { background-size: cover; background-position: center; }
+.bubble.solved { background-size: cover; background-position: center; border-color: var(--gold); }
+
+/* --- MODAL (Yeni Stil) --- */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: none; /* JS ile block yapılacak */
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    backdrop-filter: blur(5px);
+}
+
+/* Modal görünür olduğunda bu class kullanılacak */
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #3d2b1f; /* Koyu kahve/ceviz zemin */
+    color: #fff;
+    padding: 30px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    border: 1px solid var(--brass);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+    animation: modalPop 0.3s ease-out;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+    opacity: 0.7;
+    transition: 0.3s;
+}
+
+.modal-close:hover { opacity: 1; }
+
+.modal-content h2 { 
+    background: rgba(212, 175, 55, 0.2);
+    color: var(--brass);
+    display: inline-block;
+    padding: 5px 20px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    border: 1px solid var(--brass);
+}
+
+.modal-content h3 {
+    font-family: 'Playfair Display', serif;
+    color: #e0f4ff;
+    margin-bottom: 20px;
+}
+
+#riddle-text {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    border-radius: 15px;
+    font-style: italic;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background: #000;
+    border: 1px solid var(--brass);
+    border-radius: 8px;
+    color: white;
+    text-align: center;
+    box-shadow: inset 0 0 5px rgba(212, 175, 55, 0.3);
+    box-sizing: border-box; /* padding taşmasını engeller */
+}
+
+.modal-content button {
+    width: 100%;
+    background: var(--brass);
+    color: #1a110a;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.modal-content button:active { transform: scale(0.98); }
+
+/* --- Animasyonlar --- */
+@keyframes modalPop {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
 
 @keyframes pulsing {
     0% { box-shadow: 0 0 0 0 var(--aura); }
     70% { box-shadow: 0 0 20px 15px rgba(212, 175, 55, 0); }
     100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
 }
+
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-10px); }
     75% { transform: translateX(10px); }
 }
+
 .shake-anim { animation: shake 0.4s ease-in-out; }
 
-/* Modal Styling */
-.modal {
+/* --- Müzik Butonu --- */
+#mute-btn {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 100;
+    top: 20px;
+    right: 20px;
+    background: rgba(61,43,31,0.6);
+    border: 1px solid var(--brass);
+    color: var(--brass);
+    border-radius: 50%;
+    cursor: pointer;
+    width: 45px; 
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
 }
 
-.glass {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border: 2px solid var(--gold);
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    max-width: 400px;
-}
+#mute-btn svg { width: 20px; height: 20px; fill: var(--brass); display: none; }
+#mute-btn svg.active { display: block; }
 
 .hidden { display: none !important; }
-#mute-btn {
-            background: rgba(61,43,31,0.6);
-            border: 1px solid var(--brass);
-            color: var(--brass);
-            padding: 0;
-            border-radius: 50%;
-            cursor: pointer;
-            width: 40px; height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        #mute-btn svg {
-            width: 24px; 
-            height: 24px;
-            stroke: var(--brass);
-            display: none;
-        }
-        #mute-btn svg.active {
-            display: block;
-        }
 
-/* Mobil Uyumluluk */
+/* --- Mobil Uyumluluk --- */
 @media (max-width: 768px) {
     .galaxy-grid { gap: 20px; padding: 20px; }
     .bubble { width: 80px; height: 80px; }
