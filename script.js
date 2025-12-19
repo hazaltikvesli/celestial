@@ -120,6 +120,61 @@ document.getElementById('mute-btn').onclick = () => {
         document.getElementById('icon-off').classList.add('active'); 
     }
 };
+// --- YILDIZ TOZU EFEKTİ (STAR ENGINE) ---
+const starCanvas = document.getElementById('star-canvas');
+const sctx = starCanvas.getContext('2d');
+let stars = [];
+
+function initStars() {
+    starCanvas.width = window.innerWidth;
+    starCanvas.height = window.innerHeight;
+    stars = [];
+    // 200 adet yıldız oluştur
+    for(let i = 0; i < 200; i++) {
+        stars.push({
+            x: Math.random() * starCanvas.width,
+            y: Math.random() * starCanvas.height,
+            size: Math.random() * 1.5 + 0.5, // Yıldız boyutu
+            opacity: Math.random(),           // Başlangıç şeffaflığı
+            speedX: (Math.random() - 0.5) * 0.2, // Hafif yatay hareket
+            speedY: Math.random() * 0.3 + 0.1,   // Yavaş aşağı süzülme
+            twinkleSpeed: Math.random() * 0.02 + 0.005 // Parlama hızı
+        });
+    }
+}
+
+function drawStars() {
+    sctx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+    
+    stars.forEach(s => {
+        // Parlama efekti (Opacity değişimi)
+        s.opacity += s.twinkleSpeed;
+        if (s.opacity > 1 || s.opacity < 0.2) s.twinkleSpeed *= -1;
+
+        sctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(s.opacity)})`;
+        sctx.beginPath();
+        sctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        sctx.fill();
+
+        // Hareket mantığı
+        s.y += s.speedY;
+        s.x += s.speedX;
+
+        // Ekrandan çıkan yıldızı tekrar yukarıdan başlat
+        if (s.y > starCanvas.height) {
+            s.y = -10;
+            s.x = Math.random() * starCanvas.width;
+        }
+    });
+    requestAnimationFrame(drawStars);
+}
+
+// Pencere boyutu değiştiğinde yıldızları yeniden boyutlandır
+window.addEventListener('resize', initStars);
+
+// Başlatma (Existing window.onload fonksiyonunuzun içine veya yanına ekleyin)
 
 window.onload = renderCalendar;
+initStars();
+drawStars();
 window.onresize = renderCalendar;
