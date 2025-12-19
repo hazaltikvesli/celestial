@@ -8,21 +8,23 @@ body {
     margin: 0;
     overflow: hidden;
     background: 
-        radial-gradient(circle at center, rgba(212, 175, 55, 0.15) 0%, transparent 65%),
+        radial-gradient(circle at center, rgba(212, 175, 55, 0.2) 0%, transparent 65%),
         radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
     font-family: 'Segoe UI', sans-serif;
     color: white;
     height: 100vh;
 }
 
+/* Arka Plan Parlaması */
 .cosmic-glow {
     position: fixed;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 650px; height: 650px;
-    background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
-    filter: blur(80px);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+    filter: blur(100px);
     z-index: -1;
+    pointer-events: none;
 }
 
 .galaxy-grid {
@@ -31,107 +33,115 @@ body {
     height: 100vh;
 }
 
-/* Şekil Çeşitliliği Modu */
+/* --- ORGANİK CAM BALONCUKLAR --- */
 .bubble {
     position: absolute;
     background: var(--glass);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.25);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.3);
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: inset 0 0 20px rgba(255,255,255,0.1);
+    box-shadow: inset 0 0 25px rgba(255,255,255,0.15);
     animation: floating 6s ease-in-out infinite;
-    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
 }
 
-/* Eski sevdiğin asimetrik formlar */
-.bubble:nth-child(odd) { border-radius: 45% 55% 70% 30% / 30% 60% 40% 70%; }
-.bubble:nth-child(3n) { border-radius: 20px; }
-.bubble:nth-child(even) { border-radius: 58% 42% 38% 62% / 42% 56% 44% 58%; }
-.bubble:nth-child(4n) { border-radius: 50%; }
+/* İstediğin o asimetrik karemsi ve yumuşak formlar */
+.bubble:nth-child(4n+1) { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; } 
+.bubble:nth-child(4n+2) { border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; } 
+.bubble:nth-child(4n+3) { border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%; } 
+.bubble:nth-child(4n+4) { border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%; } 
 
 @keyframes floating {
-    0%, 100% { transform: translateY(0) rotate(0); }
-    50% { transform: translateY(-15px) rotate(2deg); }
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-18px) rotate(3deg); }
 }
 
 .bubble.active {
     border-color: var(--gold);
-    box-shadow: 0 0 35px var(--aura), inset 0 0 10px var(--gold);
+    box-shadow: 0 0 40px var(--aura), inset 0 0 15px var(--gold);
 }
 
 .bubble.solved { background-size: cover; background-position: center; border-color: var(--gold); }
 .bubble.locked { opacity: 0.3; filter: grayscale(1); }
 
-/* --- TİPOGRAFİ --- */
+/* --- TİPOGRAFİ (Brush Script MT) --- */
 .handwritten {
-    font-family: 'Brush Script MT', cursive;
+    font-family: 'Brush Script MT', 'Brush Script Std', cursive;
 }
 
 #modal-title {
-    font-size: 2.8rem;
+    font-size: 3.2rem;
     color: var(--gold);
-    margin: 0;
+    margin-bottom: 5px;
+    font-weight: normal;
 }
 
 /* --- MODAL --- */
 .modal-overlay {
     position: fixed; inset: 0;
-    background: rgba(0, 0, 0, 0.88);
+    background: rgba(0, 0, 0, 0.9);
     display: none; align-items: center; justify-content: center;
-    z-index: 200; backdrop-filter: blur(10px);
+    z-index: 200; backdrop-filter: blur(12px);
 }
 .modal-overlay.active { display: flex; }
 
 .modal-content {
-    background: #3d2b1f;
-    padding: 35px; border-radius: 25px;
-    width: 90%; max-width: 420px;
+    background: #3d2b1f; /* Ceviz Zemin */
+    padding: 40px; border-radius: 30px;
+    width: 90%; max-width: 450px;
     text-align: center; position: relative;
     border: 1px solid var(--gold);
-    box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
-    animation: modalPop 0.3s ease-out;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+    animation: modalPop 0.4s ease-out;
 }
 
 #riddle-text {
-    background: rgba(0,0,0,0.4);
-    padding: 20px; border-radius: 15px;
+    background: rgba(0,0,0,0.5);
+    padding: 25px; border-radius: 18px;
     font-style: italic; margin: 20px 0;
-    line-height: 1.6;
+    line-height: 1.6; font-size: 1.1rem;
 }
 
 .modal-content input {
-    width: 100%; padding: 14px; margin-bottom: 12px;
+    width: 100%; padding: 15px; margin-bottom: 15px;
     background: #000; border: 1px solid var(--gold);
-    color: #fff; border-radius: 10px; text-align: center;
-    box-sizing: border-box;
+    color: #fff; border-radius: 12px; text-align: center;
+    box-sizing: border-box; font-size: 1rem;
 }
 
 .modal-content button {
     width: 100%; background: var(--gold);
-    padding: 14px; border: none; border-radius: 10px;
+    padding: 15px; border: none; border-radius: 12px;
     font-weight: bold; cursor: pointer; color: #1a110a;
+    font-size: 1.1rem; transition: 0.3s;
 }
 
+.modal-content button:hover { transform: scale(1.03); filter: brightness(1.1); }
+
+/* Müzik Butonu */
 #mute-btn {
-    position: fixed; top: 20px; right: 20px;
-    background: rgba(0,0,0,0.5); border: 1px solid var(--gold);
-    border-radius: 50%; width: 45px; height: 45px;
+    position: fixed; top: 25px; right: 25px;
+    background: rgba(0,0,0,0.6); border: 1px solid var(--gold);
+    border-radius: 50%; width: 50px; height: 50px;
     cursor: pointer; z-index: 1000; display: flex; align-items: center; justify-content: center;
 }
-#mute-btn svg { width: 22px; height: 22px; fill: var(--gold); display: none; }
+#mute-btn svg { width: 24px; height: 24px; fill: var(--gold); display: none; }
 #mute-btn svg.active { display: block; }
 
+/* Final Ekranı */
 #final-screen {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+    position: fixed; inset: 0; background: rgba(0,0,0,0.95);
     display: flex; align-items: center; justify-content: center; z-index: 500;
 }
+.final-message h1 { font-size: 4.5rem; color: var(--gold); text-shadow: 0 0 20px var(--aura); }
+
 .hidden { display: none !important; }
 .shake-anim { animation: shake 0.4s; }
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-8px); }
-    75% { transform: translateX(8px); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
 }
