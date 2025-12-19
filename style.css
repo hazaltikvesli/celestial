@@ -144,7 +144,15 @@ body {
         #mute-btn svg.active {
             display: block;
         }
-
+#star-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1; /* Arka planın bir tık önünde, baloncukların arkasında */
+}
 /* Final Ekranı */
 #final-screen {
     position: fixed; inset: 0; background: rgba(0,0,0,0.95);
