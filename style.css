@@ -38,7 +38,7 @@ body {
     position: absolute;
     background: var(--glass);
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(212, 175, 55, 1);
+    border: 3px solid rgba(212, 175, 55, 1);
     cursor: pointer;
     display: flex;
     justify-content: center;
