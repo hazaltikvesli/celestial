@@ -76,6 +76,12 @@ body {
     70% { box-shadow: 0 0 20px 15px rgba(212, 175, 55, 0); }
     100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
 }
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+.shake-anim { animation: shake 0.4s ease-in-out; }
 
 /* Modal Styling */
 .modal {
