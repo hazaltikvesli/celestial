@@ -10,7 +10,7 @@ const calendarData = [
     { id: 9, riddle: "Kaptanla her virajda omuz omuzayım; elinin altındaki en yakın kuyu, bezlerin ve temizlik spreylerinin yuvasıyım.", answer: "Kapı cebi", img: "5.jpeg" },
     { id: 10, riddle: "Asıl kapağın yukarısında pusuda bekleyen ikinci bir saklanma yeriyim; her arabada bulunmam, varlığım bir sürprizdir.", answer: "Üst Torpido", img: "10.JPG" },
     { id: 11, riddle: "Dünyayı bir kutuya sığdırdım, cebindeyken her yere ulaştım. Gözüm var görmem ama gösteririm, kulağım var duymam ama duyururum; şarjım biterse bir anda dilsiz kalırım.", answer: "Telefon", img: "11.jpg" },
-    { id: 12, riddle: "Arabanın sırtındaki devasa çantayım; tatile giderken dolar taşarım, şehirde ise sadece bir stepneye ev sahipliği yaparım.", answer: "bagaj", img: "12.jpg" },
+    { id: 12, riddle: "Arabanın sırtındaki devase çantayım; tatile giderken dolar taşarım, şehirde ise sadece bir stepneye ev sahipliği yaparım.", answer: "bagaj", img: "12.jpg" },
 ];
 
 let currentStep = parseInt(localStorage.getItem('celestialProgress')) || 1;
@@ -30,17 +30,16 @@ function renderCalendar() {
         const bubble = document.createElement('div');
         bubble.className = 'bubble';
         
-        // --- DAĞILIM MATEMATİĞİ ---
         const angle = (index / calendarData.length) * Math.PI * 2;
-        const radius = Math.min(window.innerWidth, window.innerHeight) * 0.3 + (Math.random() * 50);
-        const x = centerX + Math.cos(angle) * radius - 50;
-        const y = centerY + Math.sin(angle) * radius - 50;
+        const radius = Math.min(window.innerWidth, window.innerHeight) * 0.35;
+        const x = centerX + Math.cos(angle) * radius - 55;
+        const y = centerY + Math.sin(angle) * radius - 55;
 
         bubble.style.left = `${x}px`;
         bubble.style.top = `${y}px`;
-        bubble.style.width = bubble.style.height = `${90 + Math.random() * 30}px`;
-        bubble.style.animationDelay = `${index * 0.2}s`;
-        // -------------------------
+        const size = 100 + (index % 3) * 15;
+        bubble.style.width = bubble.style.height = `${size}px`;
+        bubble.style.animationDelay = `${index * 0.4}s`;
 
         if (item.id < currentStep) {
             bubble.classList.add('solved');
@@ -68,7 +67,7 @@ function renderCalendar() {
             document.getElementById('answer-input').value = '';
             modalOverlay.classList.add('active');
             sfx.chime.play();
-            if (bgMusic.paused) bgMusic.play();
+            if (bgMusic.paused) bgMusic.play().catch(() => {});
         };
         grid.appendChild(bubble);
     });
@@ -85,7 +84,7 @@ document.getElementById('submit-btn').onclick = () => {
             currentStep = 13;
             localStorage.setItem('celestialProgress', 13);
             renderCalendar();
-            confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 } });
+            confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });
             document.getElementById('final-screen').classList.remove('hidden');
         } else {
             currentStep++;
@@ -106,4 +105,4 @@ document.getElementById('mute-btn').onclick = () => {
 };
 
 window.onload = renderCalendar;
-window.onresize = renderCalendar; // Ekran boyutu değişirse baloncukları yeniden dağıt
+window.onresize = renderCalendar;
