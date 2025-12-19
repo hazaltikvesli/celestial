@@ -80,16 +80,24 @@ body {
 }
 
 /* --- MODAL --- */
+/* Arka plan karartmasını ve bulanıklığı kaldırıyoruz */
 .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0, 0, 0, 0.9);
-    display: none; align-items: center; justify-content: center;
-    z-index: 200; backdrop-filter: blur(12px);
+    position: fixed;
+    inset: 0;
+    background: transparent; /* Karartma iptal: rgba(0,0,0,0.85) yerine */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* En üstte kalması için yüksek bir değer */
+    backdrop-filter: none; /* Arka planı bulanıklaştırmayı kaldırır */
+    pointer-events: none; /* Arka plandaki baloncuklara tıklamaya devam edebilmek için (Opsiyonel) */
 }
-.modal-overlay.active { display: flex; }
 
+.modal-overlay.active {
+    display: flex;
+}
 .modal-content {
-    background: rgba(10, 25, 47, 0.4); 
+    background: rgba(10, 25, 47, 0.2); 
     padding: 40px; border-radius: 30px;
     width: 90%; max-width: 450px;
     text-align: center; position: relative;
