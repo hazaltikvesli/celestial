@@ -123,13 +123,27 @@ body {
 
 /* Müzik Butonu */
 #mute-btn {
-    position: fixed; top: 25px; right: 25px;
-    background: rgba(0,0,0,0.6); border: 1px solid var(--gold);
-    border-radius: 50%; width: 50px; height: 50px;
-    cursor: pointer; z-index: 1000; display: flex; align-items: center; justify-content: center;
-}
-#mute-btn svg { width: 24px; height: 24px; fill: var(--gold); display: none; }
-#mute-btn svg.active { display: block; }
+            background: rgba(61,43,31,0.6);
+            border: 1px solid var(--brass);
+            color: var(--brass);
+            padding: 0;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 40px; height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        #mute-btn svg {
+            width: 24px; 
+            height: 24px;
+            stroke: var(--brass);
+            display: none;
+        }
+        #mute-btn svg.active {
+            display: block;
+        }
 
 /* Final Ekranı */
 #final-screen {
