@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celestial Advent Calendar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="stars-container"></div>
+    <div id="nebula"></div>
+
+    <header>
+        <div id="music-control" class="control-btn">
+            <span id="mute-icon">🔊</span>
+        </div>
+    </header>
+
+    <main class="galaxy-grid" id="calendar-grid">
+        </main>
+
+    <div id="riddle-modal" class="modal hidden">
+        <div class="modal-content glass">
+            <span class="close-modal">&times;</span>
+            <h2 class="gold-text">Kozmik Bilmece</h2>
+            <p id="riddle-text"></p>
+            <input type="text" id="answer-input" placeholder="Cevabını buraya yaz...">
+            <button id="submit-answer">Cevapla</button>
+        </div>
+    </div>
+
+    <div id="final-screen" class="hidden">
+        <h1 class="handwritten">Yeni Yılın Kutlu Olsun Sevgilim!</h1>
+    </div>
+
+    <audio id="bg-music" loop src="assets/piano-noel.mp3"></audio>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
