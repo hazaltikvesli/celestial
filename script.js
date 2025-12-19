@@ -30,7 +30,7 @@ const answerInput = document.getElementById('answer-input');
 const submitBtn = document.getElementById('submit-answer');
 const closeModal = document.querySelector('.close-modal');
 const bgMusic = document.getElementById('bg-music');
-const muteBtn = document.getElementById('music-control');
+const muteBtn = document.getElementById('mute-btn');
 
 // Ses Dosyaları (Yolları klasör yapına göre düzenle)
 const sfx = {
@@ -145,15 +145,22 @@ function showFinalSurprise() {
 
 // Müzik ve Modal Kapama
 muteBtn.onclick = () => {
-    if (bgMusic.paused) {
-        bgMusic.play();
-        muteBtn.innerHTML = '🔊';
-    } else {
-        bgMusic.pause();
-        muteBtn.innerHTML = '🔇';
-    }
-};
-
+            const iconOn= document.getElementById('icon-on');
+            const iconOff= document.getElementById('icon-off');        
+            if (bgMusic.paused) {
+                bgMusic.play();
+                iconOn.classList.add('active');
+                iconOff.classList.remove('active');
+                iconOn.style.display = "block";
+                iconOff.style.display = "none";
+            } else {
+                bgMusic.pause();
+                iconOn.classList.remove('active');
+                iconOff.classList.add('active');
+                iconOn.style.display = "none";
+                iconOff.style.display = "block";
+            }
+        };
 closeModal.onclick = () => modal.classList.add('hidden');
 
 // Başlat
