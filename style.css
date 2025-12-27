@@ -188,12 +188,12 @@ body {
 }
 /* Final ekranındaki başlık yazısı */
 #final-screen h1 {
-    color: #ffd700; /* Altın Sarısı */
-    /* Yazıya altın rengi parıltı ekleyelim, temaya uysun */
-    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 
-                 0 0 40px rgba(255, 215, 0, 0.5);
-    font-weight: 700;
-    letter-spacing: 2px;
+    color: #FFD700; /* Altın Sarısı */
+    text-shadow: 
+        0 0 10px rgba(255, 215, 0, 0.7), 
+        0 0 20px rgba(218, 165, 32, 0.5); /* Hafif parlama efekti */
+    font-weight: bold;
+    font-family: 'Playfair Display', serif; /* Senin fontun */
 }
 .hidden { display: none !important; }
 .shake-anim { animation: shake 0.4s; }
