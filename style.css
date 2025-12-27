@@ -37,6 +37,7 @@ body {
 /* --- ORGANİK CAM BALONCUKLAR --- */
 .bubble {
     position: absolute;
+    z-index: 50;
     background: var(--glass);
     backdrop-filter: blur(15px);
     border: 3px solid rgba(212, 175, 55, 1);
