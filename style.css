@@ -191,7 +191,6 @@ body {
     color: #FFD700; /* Altın Sarısı */
     text-shadow: 
         0 0 10px rgba(255, 215, 0, 0.7), 
-        0 0 20px rgba(218, 165, 32, 0.5); /* Hafif parlama efekti */
     font-weight: bold;
     font-family: 'Playfair Display', serif; /* Senin fontun */
 }
