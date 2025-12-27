@@ -74,7 +74,6 @@ function renderCalendar() {
             document.getElementById('answer-input').value = '';
             modalOverlay.classList.add('active');
             sfx.chime.play();
-            if (bgMusic.paused) bgMusic.play().catch(() => {});
         };
         grid.appendChild(bubble);
     });
