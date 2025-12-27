@@ -2,6 +2,7 @@
     --gold: #d4af37;
     --glass: rgba(255, 255, 255, 0.12);
     --aura: rgba(212, 175, 55, 0.6);
+    --brass: #b5a642;
 }
 
 body {
@@ -69,7 +70,9 @@ body {
 
 /* --- TİPOGRAFİ (Brush Script MT) --- */
 .handwritten {
-    font-family: 'Brush Script MT', 'Brush Script Std', cursive;
+    /* Brush Script biraz eski durabilir, Playfair daha modern bir serif fonttur */
+    font-family: 'Playfair Display', serif; 
+    font-style: italic;
 }
 
 #modal-title {
@@ -104,6 +107,7 @@ body {
     border: 1px solid var(--gold);
     box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
     animation: modalPop 0.4s ease-out;
+    pointer-events: auto;
 }
 
 #riddle-text {
@@ -125,6 +129,21 @@ body {
     padding: 15px; border: none; border-radius: 12px;
     font-weight: bold; cursor: pointer; color: #f3e5ab;
     font-size: 1.1rem; transition: 0.3s;
+}
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2rem;
+    color: var(--gold);
+    cursor: pointer;
+    line-height: 1;
+    transition: transform 0.2s;
+}
+
+.modal-close:hover {
+    transform: scale(1.2);
+    color: #fff;
 }
 
 .modal-content button:hover { transform: scale(1.03); filter: brightness(1.1); }
