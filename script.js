@@ -118,6 +118,7 @@ function checkAnswer() {
                 particleCount: 250,
                 spread: 90, 
                 origin: { y: 0.6 },
+                colors: ['#FFD700', '#FFFFFF', '#000080'], // RENKLER BURADA: Altın, Beyaz, Lacivert
                 zIndex: 2000  // <--- İŞTE BU SATIR KONFETİYİ GÖRÜNÜR YAPAR
             });
             document.getElementById('final-screen').classList.remove('hidden');
