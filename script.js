@@ -30,24 +30,41 @@ function renderCalendar() {
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
 
+    // EKRAN TELEFON MU? (768px'den darsa telefondur)
+    const isMobile = window.innerWidth < 768;
+
     calendarData.forEach((item, index) => {
         const bubble = document.createElement('div');
         bubble.className = 'bubble';
         
         // --- HALKA DÜZENİ ---
         const angle = (index / calendarData.length) * Math.PI * 2;
-        const radius = Math.min(window.innerWidth, window.innerHeight) * 0.35;
-        const x = centerX + Math.cos(angle) * radius - 60;
-        const y = centerY + Math.sin(angle) * radius - 60;
+        
+        // Yarıçap ayarı: Telefondaysa ekranın %42'sini, bilgisayarda %35'ini kullansın
+        const radiusMultiplier = isMobile ? 0.42 : 0.35;
+        const radius = Math.min(window.innerWidth, window.innerHeight) * radiusMultiplier;
+
+        // --- BOYUT AYARLAMASI ---
+        // Bilgisayarda 110px başlasın, Telefonda 60px başlasın (Küçülttük!)
+        const baseSize = isMobile ? 60 : 110; 
+        const variation = isMobile ? 10 : 12;
+        
+        const size = baseSize + (index % 4) * variation;
+
+        // Baloncuğun merkezini tam oturtmak için (size / 2) çıkarıyoruz
+        // (Eski kodda sabit 60 çıkarıyorduk, o kayma yapıyordu)
+        const x = centerX + Math.cos(angle) * radius - (size / 2);
+        const y = centerY + Math.sin(angle) * radius - (size / 2);
 
         bubble.style.left = `${x}px`;
         bubble.style.top = `${y}px`;
         
-        // Organik boyutlar
-        const size = 110 + (index % 4) * 12;
-        bubble.style.width = bubble.style.height = `${size}px`;
+        // Yeni boyutları ata
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
         bubble.style.animationDelay = `${index * 0.5}s`;
 
+        // Stil Atamaları (Kilitli/Açık vb.)
         if (item.id < currentStep) {
             bubble.classList.add('solved');
             bubble.style.backgroundImage = `url('${item.img}')`;
@@ -59,7 +76,11 @@ function renderCalendar() {
             bubble.innerHTML = `<span>${item.id}</span>`;
         }
 
-        bubble.onclick = () => {
+        // Tıklama İşlemi
+        bubble.onclick = (e) => {
+            // Mobilde yanlışlıkla arka plana tıklamayı engeller
+            e.stopPropagation();
+
             if (item.id > currentStep) {
                 sfx.locked.play();
                 bubble.classList.add('shake-anim');
