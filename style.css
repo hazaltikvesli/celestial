@@ -186,8 +186,15 @@ body {
     position: fixed; inset: 0; background: rgba(0,0,0,0.95);
     display: flex; align-items: center; justify-content: center; z-index: 500;
 }
-.final-message h1 { font-size: 4.5rem; color: var(--gold); text-shadow: 0 0 20px var(--aura); }
-
+/* Final ekranındaki başlık yazısı */
+#final-screen h1 {
+    color: #ffd700; /* Altın Sarısı */
+    /* Yazıya altın rengi parıltı ekleyelim, temaya uysun */
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 
+                 0 0 40px rgba(255, 215, 0, 0.5);
+    font-weight: 700;
+    letter-spacing: 2px;
+}
 .hidden { display: none !important; }
 .shake-anim { animation: shake 0.4s; }
 @keyframes shake {
