@@ -114,7 +114,12 @@ function checkAnswer() {
             currentStep = 13;
             localStorage.setItem('celestialProgress', 13);
             renderCalendar();
-            confetti({ particleCount: 250, spread: 90, origin: { y: 0.6 } });
+            confetti({ 
+                particleCount: 250,
+                spread: 90, 
+                origin: { y: 0.6 },
+                zIndex: 2000  // <--- İŞTE BU SATIR KONFETİYİ GÖRÜNÜR YAPAR
+            });
             document.getElementById('final-screen').classList.remove('hidden');
         } else {
             currentStep++;
